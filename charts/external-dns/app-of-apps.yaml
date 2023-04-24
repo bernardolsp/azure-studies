@@ -9,10 +9,10 @@ spec:
       repoURL: https://github.com/bernardolsp/azure-studies.git
       revision: HEAD
       directories:
-      - path: "external-dns/"
+      - path: "charts/**"
   template:
     metadata:
-      name: '{{path[0]}}'
+      name: '{{path[1]}}'
       namespace: argocd
     spec:
       project: default
@@ -21,6 +21,11 @@ spec:
         targetRevision: HEAD
         path: '{{path}}'
         helm:
+          parameters:
+            - name: myVar
+              value: myKey
+            - name: external-dns.txtOwnerId
+              value: $myVar
           valueFiles:
             - "./values.yml"
       destination:
